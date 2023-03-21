@@ -1,5 +1,27 @@
-import '@/styles/globals.css'
+import { fetchPosts } from "@/middlewareRequests/fetchPosts";
+import { setPosts } from "@/store/slices/posts_slice";
+import { wrapper } from "@/store/store";
+import "@/styles/globals.css";
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+const App = ({ Component, pageProps }) => {
+  return (
+    <>
+      <Component {...pageProps} />
+    </>
+  );
+};
+
+App.getInitialProps = wrapper.getInitialPageProps(
+  (store) =>
+    async ({ req }) => {
+      const posts = await fetchPosts();
+      store.dispatch(setPosts(posts));
+      return {
+        props: {
+          data: "",
+        },
+      };
+    }
+);
+
+export default wrapper.withRedux(App);

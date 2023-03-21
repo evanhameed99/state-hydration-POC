@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  posts: [1],
+  posts: [],
 };
 
 export const counterSlice = createSlice({
